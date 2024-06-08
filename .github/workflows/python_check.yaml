@@ -1,0 +1,53 @@
+name: 🐍 Python Workflow
+
+on:
+  push:
+    paths:
+      - 'python/**'
+
+jobs:
+  python_checks:
+    name: 💻 Python Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v2
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: 📦 Install dependencies
+        run: |
+          pip install flake8 mypy black
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: 🚦 Lint Python code
+        run: |
+          flake8 python --count --statistics
+          echo "::set-output name=flake8_summary::$(flake8 python --count --select=E9,F63,F7,F82 --show-source --statistics)"
+        continue-on-error: true
+
+      - name: 📝 Type check Python code
+        run: |
+          mypy python
+        continue-on-error: true
+
+      - name: 🖌️ Format Python code with Black
+        run: |
+          black python --check --diff
+        continue-on-error: true
+
+      - name: 📋 Display Results Summary
+        if: always()
+        run: |
+          summary="${{ steps.python_checks.outputs.flake8_summary }}"
+          if [ -n "$summary" ]; then
+            echo "🔴 FAIL: Linting issues found"
+            echo "$summary"
+          else
+            echo "✅ PASS: No linting issues found"
+          fi
+
