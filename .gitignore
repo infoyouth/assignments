@@ -1,0 +1,64 @@
+# Ignore compiled object files for C/C++
+*.o
+*.out
+*.obj
+
+# Ignore build directories for C/C++
+/Debug/
+/Release/
+/build/
+
+# Ignore Visual Studio files
+*.suo
+*.ncb
+*.sdf
+*.opensdf
+*.cachefile
+
+# Ignore Xcode files
+*.swp
+*.xcuserdata
+
+# Ignore compiled files for Python
+*.pyc
+__pycache__/
+
+# Ignore build directories for Python
+/build/
+
+# Ignore Java class files
+*.class
+
+# Ignore Maven build directories
+/target/
+
+# Ignore Eclipse files
+.project
+.classpath
+.settings/
+
+# Ignore IntelliJ IDEA files
+.idea/
+*.iml
+
+# Ignore .NET build directories
+/bin/
+/obj/
+/.vs/
+
+# Ignore NuGet packages
+*.nupkg
+
+# Ignore user-specific files
+*.user
+*.suo
+*.sln.docstates
+
+# Ignore macOS hidden files
+.DS_Store
+
+# Ignore Windows thumbnails
+Thumbs.db
+
+# Ignore Linux trash folder
+.Trash-*/
