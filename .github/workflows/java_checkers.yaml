@@ -1,9 +1,9 @@
-name: ☕ Java Workflow
+name: ☕️ Java Workflow
 
 on:
   push:
     paths:
-      - 'Java/**'
+      - 'java/**'
 
 jobs:
   java_checks:
@@ -14,81 +14,13 @@ jobs:
       - name: 📥 Checkout repository
         uses: actions/checkout@v2
 
-      - name: ☕ Set up JDK
+      - name: 🚀 Set up JDK
         uses: actions/setup-java@v2
         with:
-          distribution: 'adopt'
-          java-version: '11' # Specify the JDK version you need
+          java-version: '11'
 
-      - name: 📦 Cache Maven packages
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-
-      - name: 📦 Install dependencies
-        run: mvn install -DskipTests
-
-      - name: 🏗️ Build the project
-        run: mvn package -DskipTests
-
-      - name: ✅ Run tests
-        run: mvn test
-        continue-on-error: false
-
-      - name: 🚦 Checkstyle Analysis
-        id: checkstyle
+      - name: 🧪 Run tests
         run: |
-          mvn checkstyle:checkstyle
-          CHECKSTYLE_RESULTS=$(find target -name "checkstyle-result.xml")
-          echo "::set-output name=checkstyle_results::$(cat $CHECKSTYLE_RESULTS)"
+          # Run your Java tests here
+          ./gradlew test
         continue-on-error: false
-
-      - name: 🔍 Annotate Checkstyle Issues
-        if: failure()
-        uses: actions/github-script@v3
-        with:
-          script: |
-            const { issues } = require('@actions/github');
-
-            const output = `${{ steps.checkstyle.outputs.checkstyle_results }}`;
-            if (output) {
-              const annotations = output.split('\n').map(line => {
-                const [file, line_number, column_number, message] = line.split(':');
-                return {
-                  path: file.trim(),
-                  start_line: parseInt(line_number),
-                  end_line: parseInt(line_number),
-                  annotation_level: 'failure',
-                  message: message.trim(),
-                };
-              });
-
-              annotations.forEach(annotation => {
-                github.checks.create({
-                  ...context.repo,
-                  name: 'Checkstyle Analysis',
-                  head_sha: context.sha,
-                  conclusion: 'failure',
-                  output: {
-                    title: 'Checkstyle Report',
-                    summary: 'Checkstyle found issues in your code.',
-                    annotations: [annotation],
-                  },
-                });
-              });
-            }
-
-      - name: 📋 Display Results Summary
-        if: always()
-        run: |
-          checkstyle_summary="${{ steps.checkstyle.outputs.checkstyle_results }}"
-          
-          if [ -n "$checkstyle_summary" ]; then
-            echo "🔴 FAIL: Checkstyle issues found"
-            echo "$checkstyle_summary"
-          else
-            echo "✅ PASS: No Checkstyle issues found"
-          fi

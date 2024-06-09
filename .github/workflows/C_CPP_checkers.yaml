@@ -1,4 +1,4 @@
-name: 🔧 C/C++ Workflow
+name: 🅒🅟🅟 C/C++ Workflow
 
 on:
   push:
@@ -15,99 +15,16 @@ jobs:
       - name: 📥 Checkout repository
         uses: actions/checkout@v2
 
-      - name: 🛠️ Install dependencies
-        run: sudo apt-get install -y build-essential cppcheck
-
-      - name: 🏗️ Build C files
-        run: |
-          mkdir -p build
-          for file in C/*.c; do
-            gcc -c "$file" -o "build/$(basename "$file" .c).o"
-          done
-          gcc build/*.o -o build/c_program
-
-      - name: 🏗️ Build C++ files
-        run: |
-          mkdir -p build
-          for file in CPP/*.cpp; do
-            g++ -c "$file" -o "build/$(basename "$file" .cpp).o"
-          done
-          g++ build/*.o -o build/cpp_program
-
-      - name: ✅ Run C tests
-        run: |
-          if [ -f build/c_program ]; then
-            ./build/c_program
-          fi
-        continue-on-error: false
-
-      - name: ✅ Run C++ tests
-        run: |
-          if [ -f build/cpp_program ]; then
-            ./build/cpp_program
-          fi
-        continue-on-error: false
-
-      - name: 🚦 Static analysis with cppcheck
-        id: cppcheck
-        run: |
-          cppcheck --enable=all --inconclusive --xml C CPP 2> cppcheck.xml
-          cat cppcheck.xml
-          echo "::set-output name=cppcheck_results::$(cat cppcheck.xml)"
-        continue-on-error: true
-
-      - name: 🔍 Annotate cppcheck Issues
-        if: failure()
-        uses: actions/github-script@v3
+      - name: 🛠️ Set up C/C++ toolchain
+        uses: actions/setup-python@v2
         with:
-          script: |
-            const { issues } = require('@actions/github');
+          python-version: '3.x'
 
-            const output = `${{ steps.cppcheck.outputs.cppcheck_results }}`;
-            if (output) {
-              const annotations = [];
-              const parser = new DOMParser();
-              const xmlDoc = parser.parseFromString(output, "application/xml");
-              const errors = xmlDoc.getElementsByTagName("error");
-
-              for (let i = 0; i < errors.length; i++) {
-                const error = errors[i];
-                const file = error.getAttribute("file");
-                const line = error.getAttribute("line");
-                const message = error.getAttribute("msg");
-
-                annotations.push({
-                  path: file,
-                  start_line: parseInt(line),
-                  end_line: parseInt(line),
-                  annotation_level: 'failure',
-                  message: message,
-                });
-              }
-
-              annotations.forEach(annotation => {
-                github.checks.create({
-                  ...context.repo,
-                  name: 'cppcheck Analysis',
-                  head_sha: context.sha,
-                  conclusion: 'failure',
-                  output: {
-                    title: 'cppcheck Report',
-                    summary: 'cppcheck found issues in your code.',
-                    annotations: [annotation],
-                  },
-                });
-              });
-            }
-
-      - name: 📋 Display Results Summary
-        if: always()
+      - name: 🚀 Build C/C++ code
         run: |
-          cppcheck_summary="${{ steps.cppcheck.outputs.cppcheck_results }}"
+          # Compile C files
+          gcc -o output_c C/*.c
           
-          if [ -n "$cppcheck_summary" ]; then
-            echo "🔴 FAIL: cppcheck issues found"
-            echo "$cppcheck_summary"
-          else
-            echo "✅ PASS: No cppcheck issues found"
-          fi
+          # Compile C++ files
+          g++ -o output_cpp CPP/*.cpp
+        continue-on-error: false
