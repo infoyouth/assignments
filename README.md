@@ -1,138 +1,71 @@
-# 🎓 Assignment 1: Multi-language Programming Practice
-
-## 📚 Objective
-The objective of this assignment is to practice basic programming concepts in Python, C, C++, and Java.
-
-## 🛠️ Instructions
-
-### 🐍 Python
-1. **Navigate to the `python` directory**:
-    ```sh
-    cd python
-    ```
-2. **Implement the following functions in `main.py`**:
-    - `def factorial(n):` - Calculate the factorial of a number.
-    - `def is_prime(n):` - Check if a number is prime.
-    - `def fibonacci(n):` - Generate a Fibonacci series up to `n`.
-
-3. **Run your code**:
-    ```sh
-    python main.py
-    ```
-
-### ⚙️ C
-1. **Navigate to the `c` directory**:
-    ```sh
-    cd c
-    ```
-2. **Implement the following in `main.c`**:
-    - Function to calculate the factorial of a number.
-    - Function to check if a number is prime.
-    - Function to generate a Fibonacci series up to a given number.
-
-3. **Compile and run your code**:
-    ```sh
-    gcc main.c -o main
-    ./main
-    ```
-
-### 🛠️ C++
-1. **Navigate to the `cpp` directory**:
-    ```sh
-    cd cpp
-    ```
-2. **Implement the following in `main.cpp`**:
-    - Function to calculate the factorial of a number.
-    - Function to check if a number is prime.
-    - Function to generate a Fibonacci series up to a given number.
-
-3. **Compile and run your code**:
-    ```sh
-    g++ main.cpp -o main
-    ./main
-    ```
-
-### ☕ Java
-1. **Navigate to the `java` directory**:
-    ```sh
-    cd java
-    ```
-2. **Implement the following in `Main.java`**:
-    - Method to calculate the factorial of a number.
-    - Method to check if a number is prime.
-    - Method to generate a Fibonacci series up to a given number.
-
-3. **Compile and run your code**:
-    ```sh
-    javac Main.java
-    java Main
-    ```
-
-## 📝 Submission
-1. Complete the implementation in each directory.
-2. Commit and push your changes to your repository:
-    ```sh
-    git add .
-    git commit -m "Completed Assignment 1"
-    git push origin <your-branch>
-    ```
-3. Create a pull request for review.
-
-## 🧪 Evaluation
-Your submission will be evaluated based on:
-- ✅ Correctness of the implementation.
-- 🧼 Code quality and adherence to best practices.
-- 🛡️ Passing all automated tests and checks.
-
-## 📑 Additional Resources
-- Refer to the [detailed instructions](docs/detailed-instructions.md) for more information on the assignment requirements.
+# 📚 Engineering Assignments & Github Learning
+Welcome to the Engineering Assignments Repository!
+Follow the instructions below to learn how to clone the repository, make changes, commit, push, create pull requests, handle failed PRs, and request reviews from the repository owner (@infoyouth).
 
 ---
 
-# 📜 Detailed Instructions
+## 🚀 Getting Started
 
-## Python
-### Task 1: Factorial Function
-Implement a function `factorial(n)` that calculates the factorial of a non-negative integer `n`.
+### 1. Clone the Repository
+To get started, clone the repository to your local machine:
+```sh
+git clone https://github.com/infoyouth/assignments.git
+```
+### 2. Create a New Branch
+Create a new branch for your assignment to keep your work organized and separate from the main branch. Follow these steps:
 
-### Task 2: Prime Checker
-Implement a function `is_prime(n)` that checks if a number `n` is a prime number.
+a. Open your terminal or command prompt.
 
-### Task 3: Fibonacci Series
-Implement a function `fibonacci(n)` that generates a list of Fibonacci numbers up to `n`.
+b. Make sure you are in the repository directory:
+    ```sh
+    cd assignments
+    ```
 
-## C
-### Task 1: Factorial Function
-Implement a function `factorial(int n)` that calculates the factorial of a non-negative integer `n`.
+c. Create a new branch with a meaningful name:
+    ```sh
+    git checkout -b <your-branch-name>
+    ```
+    Replace `<your-branch-name>` with a descriptive name for your branch, such as `feature/python-assignment1`.
 
-### Task 2: Prime Checker
-Implement a function `is_prime(int n)` that checks if a number `n` is a prime number.
+> 💡 **Tip**: Use branch names that reflect the task or feature you are working on to keep things organized.
 
-### Task 3: Fibonacci Series
-Implement a function `fibonacci(int n)` that generates a list of Fibonacci numbers up to `n`.
+### 3. Make Changes
+Navigate to the folder for your assignment (e.g., `python`, `c`, `cpp`, `java`) and make the necessary changes. Follow these steps:
 
-## C++
-### Task 1: Factorial Function
-Implement a function `factorial(int n)` that calculates the factorial of a non-negative integer `n`.
+a. Open your terminal or command prompt.
 
-### Task 2: Prime Checker
-Implement a function `is_prime(int n)` that checks if a number `n` is a prime number.
+b. Navigate to the directory for the language you are working on:
+    ```sh
+    cd <language-directory>
+    ```
+    Replace `<language-directory>` with the appropriate folder name, such as `python`, `c`, `cpp`, or `java`.
 
-### Task 3: Fibonacci Series
-Implement a function `fibonacci(int n)` that generates a list of Fibonacci numbers up to `n`.
+c. Make the necessary changes to your code files as per the assignment instructions.
 
-## Java
-### Task 1: Factorial Function
-Implement a method `factorial(int n)` that calculates the factorial of a non-negative integer `n`.
+> 💡 **Tip**: Regularly save your work and test your code to ensure it meets the assignment requirements.
 
-### Task 2: Prime Checker
-Implement a method `is_prime(int n)` that checks if a number `n` is a prime number.
+### 4. Add and Commit Your Changes
+Once you have made the necessary changes to your code files, you need to stage and commit your changes. Follow these steps:
 
-### Task 3: Fibonacci Series
-Implement a method `fibonacci(int n)` that generates a list of Fibonacci numbers up to `n`.
+a. Stage your changes by adding them to the Git staging area:
+    ```sh
+    git add .
+    ```
 
-## Submission Guidelines
-- Ensure your code passes all the provided tests.
-- Follow coding best practices and style guidelines.
-- Commit your code with meaningful commit messages.
+b. Commit your changes with a descriptive message explaining the updates:
+    ```sh
+    git commit -m "Completed Assignment 1 in Python"
+    ```
 
+> 💡 **Tip**: Write clear and concise commit messages that describe the changes you made. This helps you and others understand the purpose of each commit.
+
+## Further Details
+
+For detailed instructions on each assignment, please refer to the following files:
+
+- [Python Assignments](./python/instructions.md)
+- [C Assignments](./c/instructions.md)
+- [C++ Assignments](./cpp/instructions.md)
+- [Java Assignments](./java/instructions.md)
+
+---
