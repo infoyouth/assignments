@@ -17,7 +17,7 @@ Create a new branch for your assignment to keep your work organized and separate
 a. Open your terminal or command prompt.
 
 b. Make sure you are in the repository directory:
-    ```sh
+    ```
     cd assignments
     ```
 
