@@ -28,17 +28,17 @@ jobs:
         run: |
           flake8 python --count --statistics
           echo "::set-output name=flake8_summary::$(flake8 python --count --select=E9,F63,F7,F82 --show-source --statistics)"
-        continue-on-error: true
+        continue-on-error: false
 
       - name: 📝 Type check Python code
         run: |
           mypy python
-        continue-on-error: true
+        continue-on-error: false
 
       - name: 🖌️ Format Python code with Black
         run: |
-          black python --check --diff
-        continue-on-error: true
+          black --check --diff python
+        continue-on-error: false
 
       - name: 📋 Display Results Summary
         if: always()
@@ -47,7 +47,7 @@ jobs:
           if [ -n "$summary" ]; then
             echo "🔴 FAIL: Linting issues found"
             echo "$summary"
+            exit 1
           else
             echo "✅ PASS: No linting issues found"
           fi
-

@@ -1,0 +1,26 @@
+name: ☕️ Java Workflow
+
+on:
+  push:
+    paths:
+      - 'java/**'
+
+jobs:
+  java_checks:
+    name: 💻 Java Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v2
+
+      - name: 🚀 Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+
+      - name: 🧪 Run tests
+        run: |
+          # Run your Java tests here
+          ./gradlew test
+        continue-on-error: false
