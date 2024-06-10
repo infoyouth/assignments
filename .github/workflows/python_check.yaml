@@ -21,33 +21,58 @@ jobs:
 
       - name: 📦 Install dependencies
         run: |
-          pip install flake8 mypy black
+          pip install flake8 mypy black bandit
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: 🚦 Lint Python code
+        id: lint
         run: |
-          flake8 python --count --statistics
-          echo "::set-output name=flake8_summary::$(flake8 python --count --select=E9,F63,F7,F82 --show-source --statistics)"
+          flake8 python --count --statistics || echo "::error title=Linting failed::Linting issues found"
         continue-on-error: false
 
       - name: 📝 Type check Python code
+        id: typecheck
         run: |
-          mypy python
+          mypy python || echo "::error title=Type checking failed::Type checking issues found"
         continue-on-error: false
 
       - name: 🖌️ Format Python code with Black
+        id: format
         run: |
-          black --check --diff python
+          black --check --diff python || echo "::error title=Formatting failed::Formatting issues found"
+        continue-on-error: false
+
+      - name: 🔒 Security check with Bandit
+        id: security
+        run: |
+          bandit -r python || echo "::error title=Security check failed::Security issues found"
         continue-on-error: false
 
       - name: 📋 Display Results Summary
         if: always()
         run: |
-          summary="${{ steps.python_checks.outputs.flake8_summary }}"
-          if [ -n "$summary" ]; then
-            echo "🔴 FAIL: Linting issues found"
-            echo "$summary"
+          lint_summary=$(flake8 python --count --statistics 2>&1)
+          typecheck_summary=$(mypy python 2>&1)
+          format_summary=$(black --check --diff python 2>&1)
+          security_summary=$(bandit -r python 2>&1)
+
+          echo "## Linting Summary"
+          echo "$lint_summary"
+          echo "## Type Checking Summary"
+          echo "$typecheck_summary"
+          echo "## Formatting Summary"
+          echo "$format_summary"
+          echo "## Security Summary"
+          echo "$security_summary"
+
+          if [ -n "$lint_summary" ] || [ -n "$typecheck_summary" ] || [ -n "$format_summary" ] || [ -n "$security_summary" ]; then
+            echo "🔴 **FAIL: Issues found**"
+            [ -n "$lint_summary" ] && echo "### Linting issues:" && echo "$lint_summary"
+            [ -n "$typecheck_summary" ] && echo "### Type checking issues:" && echo "$typecheck_summary"
+            [ -n "$format_summary" ] && echo "### Formatting issues:" && echo "$format_summary"
+            [ -n "$security_summary" ] && echo "### Security issues:" && echo "$security_summary"
             exit 1
           else
-            echo "✅ PASS: No linting issues found"
+            echo "✅ **PASS: No issues found**"
           fi
+
