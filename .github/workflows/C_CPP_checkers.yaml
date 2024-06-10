@@ -1,0 +1,30 @@
+name: 🅒🅟🅟 C/C++ Workflow
+
+on:
+  push:
+    paths:
+      - 'C/**'
+      - 'CPP/**'
+
+jobs:
+  cpp_checks:
+    name: 💻 C/C++ Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v2
+
+      - name: 🛠️ Set up C/C++ toolchain
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: 🚀 Build C/C++ code
+        run: |
+          # Compile C files
+          gcc -o output_c C/*.c
+          
+          # Compile C++ files
+          g++ -o output_cpp CPP/*.cpp
+        continue-on-error: false
