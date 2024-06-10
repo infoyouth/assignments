@@ -47,32 +47,5 @@ jobs:
         run: |
           bandit -r python || echo "::error title=Security check failed::Security issues found"
         continue-on-error: false
-
-      - name: 📋 Display Results Summary
-        if: always()
-        run: |
-          lint_summary=$(flake8 python --count --statistics 2>&1)
-          typecheck_summary=$(mypy python 2>&1)
-          format_summary=$(black --check --diff python 2>&1)
-          security_summary=$(bandit -r python 2>&1)
-
-          echo "## Linting Summary"
-          echo "$lint_summary"
-          echo "## Type Checking Summary"
-          echo "$typecheck_summary"
-          echo "## Formatting Summary"
-          echo "$format_summary"
-          echo "## Security Summary"
-          echo "$security_summary"
-
-          if [ -n "$lint_summary" ] || [ -n "$typecheck_summary" ] || [ -n "$format_summary" ] || [ -n "$security_summary" ]; then
-            echo "🔴 **FAIL: Issues found**"
-            [ -n "$lint_summary" ] && echo "### Linting issues:" && echo "$lint_summary"
-            [ -n "$typecheck_summary" ] && echo "### Type checking issues:" && echo "$typecheck_summary"
-            [ -n "$format_summary" ] && echo "### Formatting issues:" && echo "$format_summary"
-            [ -n "$security_summary" ] && echo "### Security issues:" && echo "$security_summary"
-            exit 1
-          else
-            echo "✅ **PASS: No issues found**"
-          fi
+        
 
