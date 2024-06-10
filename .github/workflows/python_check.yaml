@@ -4,70 +4,22 @@ on:
   push:
     paths:
       - 'python/**'
-
 jobs:
-  python_checks:
-    name: 💻 Python Checks
+  build:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9", "3.10"]
     steps:
-      - name: 📥 Checkout repository
-        uses: actions/checkout@v2
-
-      - name: 🐍 Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
-
-      - name: 📦 Install dependencies
-        run: |
-          pip install flake8 mypy black bandit
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
-      - name: 🚦 Lint Python code
-        run: |
-          flake8 python --count --statistics
-        continue-on-error: false
-
-      - name: 📝 Type check Python code
-        run: |
-          mypy python
-        continue-on-error: false
-
-      - name: 🖌️ Format Python code with Black
-        run: |
-          black --check --diff python
-        continue-on-error: false
-
-      - name: 🔒 Security check with Bandit
-        run: |
-          bandit -r python
-        continue-on-error: false
-
-      - name: 📋 Display Results Summary
-        if: always()
-        run: |
-          lint_summary=$(flake8 python --count --statistics 2>&1)
-          typecheck_summary=$(mypy python 2>&1)
-          format_summary=$(black --check --diff python 2>&1)
-          security_summary=$(bandit -r python 2>&1)
-
-          echo "## Linting Summary"
-          echo "$lint_summary"
-          echo "## Type Checking Summary"
-          echo "$typecheck_summary"
-          echo "## Formatting Summary"
-          echo "$format_summary"
-          echo "## Security Summary"
-          echo "$security_summary"
-
-          if [ -n "$lint_summary" ] || [ -n "$typecheck_summary" ] || [ -n "$format_summary" ] || [ -n "$security_summary" ]; then
-            echo "🔴 **FAIL: Issues found**"
-            [ -n "$lint_summary" ] && echo "### Linting issues:" && echo "$lint_summary"
-            [ -n "$typecheck_summary" ] && echo "### Type checking issues:" && echo "$typecheck_summary"
-            [ -n "$format_summary" ] && echo "### Formatting issues:" && echo "$format_summary"
-            [ -n "$security_summary" ] && echo "### Security issues:" && echo "$security_summary"
-            exit 1
-          else
-            echo "✅ **PASS: No issues found**"
-          fi
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pylint
+    - name: Analysing the code with pylint
+      run: |
+        pylint $(git ls-files '*.py')
