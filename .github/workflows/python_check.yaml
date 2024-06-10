@@ -4,22 +4,49 @@ on:
   push:
     paths:
       - 'python/**'
+
 jobs:
-  build:
+  python_checks:
+    name: 💻 Python Checks
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.8", "3.9", "3.10"]
+
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install pylint
-    - name: Analysing the code with pylint
-      run: |
-        pylint $(git ls-files '*.py')
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v2
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: 📦 Install dependencies
+        run: |
+          pip install flake8 mypy black
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: 🚦 Lint Python code
+        run: |
+          flake8 python --count --statistics
+          echo "::set-output name=flake8_summary::$(flake8 python --count --select=E9,F63,F7,F82 --show-source --statistics)"
+        continue-on-error: false
+
+      - name: 📝 Type check Python code
+        run: |
+          mypy python
+        continue-on-error: false
+
+      - name: 🖌️ Format Python code with Black
+        run: |
+          black --check --diff python
+        continue-on-error: false
+
+      - name: 📋 Display Results Summary
+        if: always()
+        run: |
+          summary="${{ steps.python_checks.outputs.flake8_summary }}"
+          if [ -n "$summary" ]; then
+            echo "🔴 FAIL: Linting issues found"
+            echo "$summary"
+            exit 1
+          else
+            echo "✅ PASS: No linting issues found"
+          fi
