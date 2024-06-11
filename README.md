@@ -8,7 +8,7 @@ Follow the instructions below to learn how to clone the repository, make changes
 
 ### 1. Clone the Repository
 To get started, clone the repository to your local machine:
-```sh
+```
 git clone https://github.com/infoyouth/assignments.git
 ```
 ### 2. Create a New Branch
@@ -22,7 +22,7 @@ b. Make sure you are in the repository directory:
     ```
 
 c. Create a new branch with a meaningful name:
-    ```sh
+    ```
     git checkout -b <your-branch-name>
     ```
     Replace `<your-branch-name>` with a descriptive name for your branch, such as `feature/python-assignment1`.
@@ -35,7 +35,7 @@ Navigate to the folder for your assignment (e.g., `python`, `c`, `cpp`, `java`) 
 a. Open your terminal or command prompt.
 
 b. Navigate to the directory for the language you are working on:
-    ```sh
+    ```
     cd <language-directory>
     ```
     Replace `<language-directory>` with the appropriate folder name, such as `python`, `c`, `cpp`, or `java`.
@@ -48,12 +48,12 @@ c. Make the necessary changes to your code files as per the assignment instructi
 Once you have made the necessary changes to your code files, you need to stage and commit your changes. Follow these steps:
 
 a. Stage your changes by adding them to the Git staging area:
-    ```sh
+    ```
     git add .
     ```
 
 b. Commit your changes with a descriptive message explaining the updates:
-    ```sh
+    ```
     git commit -m "Completed Assignment 1 in Python"
     ```
 
