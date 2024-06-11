@@ -17,11 +17,42 @@ Create a new branch for your assignment to keep your work organized and separate
 a. Open your terminal or command prompt.
 
 b. Make sure you are in the repository directory:
-    ```
-    cd assignments
-    ```
+    ```cd assignments ```
+    
+c. Create following directory as applicable and shown in the below tree
 
-c. Create a new branch with a meaningful name:
+ ```   .
+├── C                            |   ├── Java
+│   ├── student1                 |   │   ├── student1
+│   │   ├── assignment1.c        |   │   │   ├── assignment1
+│   │   ├── assignment2.c        |   │   │   │   └── pom.xml or build.gradle
+│   │   ├── Makefile             |   │   │   ├── assignment2
+│   ├── student2                 |   │   │   │   └── pom.xml or build.gradle
+│   │   ├── assignment1.c        |   │   ├── student2
+│   │   ├── assignment2.c        |   │   │   ├── assignment1
+│   │   ├── Makefile             |   │   │   │   └── pom.xml or build.gradle
+│   ├── studentN                 |   │   │   ├── assignment2
+│   │   ├── assignment1.c        |   │   │   │   └── pom.xml or build.gradle
+│   │   ├── assignment2.c        |   │   ├── studentN
+│   │   ├── Makefile             |   │   │   ├── assignment1
+│                                |   │   │   │   └── pom.xml or build.gradle
+├── CPP                          |   │   │   ├── assignment2
+│   ├── student1                 |   │   │   │   └── pom.xml or build.gradle
+│   │   ├── assignment1.cpp      |
+│   │   ├── assignment2.cpp      |   ├── Python
+│   │   ├── Makefile             |   │   ├── student1
+│   ├── student2                 |   │   │   ├── assignment1.py
+│   │   ├── assignment1.cpp      |   │   │   ├── assignment2.py
+│   │   ├── assignment2.cpp      |   │   ├── student2
+│   │   ├── Makefile             |   │   │   ├── assignment1.py
+│   ├── studentN                 |   │   │   ├── assignment2.py
+│   │   ├── assignment1.cpp      |   │   ├── studentN
+│   │   ├── assignment2.cpp      |   │   │   ├── assignment1.py
+│   │   ├── Makefile             |   │   │   ├── assignment2.py
+                                
+
+```
+d. Create a new branch with a meaningful name:
     ```
     git checkout -b <your-branch-name>
     ```
